@@ -1,0 +1,57 @@
+@keyframes fadeIn{
+    0%{
+        opacity: 0;
+        transform: translateX(20px);
+    }100%{
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.main-page{
+
+    .ant-layout{
+        height: 100vh;
+    }
+
+    #components-layout-demo-custom-trigger .trigger {
+        font-size: 18px;
+        line-height: 64px;
+        padding: 0 24px;
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+    
+    #components-layout-demo-custom-trigger .trigger:hover {
+        color: #1890ff;
+    }
+    
+    #components-layout-demo-custom-trigger .logo {
+        height: 32px;
+        background: rgba(255, 255, 255, 0.3);
+        margin: 16px;
+    }
+    
+    .site-layout .site-layout-background {
+        background: #fff;
+    }
+
+    .logo{
+        font-size: 20px;
+        color: #fff;
+        padding: 10px 24px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    .trigger{
+        font-size: 20px;
+        margin-left: 16px;
+    }
+
+    .ant-layout-content{
+        margin-top: 0!important;
+    }
+
+}

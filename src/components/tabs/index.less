@@ -1,0 +1,27 @@
+.old-path{
+    padding: 16px 16px 0;
+    display: flex;
+    .path-link{
+        width: 100px;
+        background: #dfdfdf;
+        padding: 5px 25px 5px 15px;
+        position: relative;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-right: 3px;
+        animation: fadeIn .3s;
+        color: rgba(0, 0, 0, 0.85);
+        transition: .3s;
+        &.active{
+            background: #fff;
+        }
+        .close{
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+    }
+}

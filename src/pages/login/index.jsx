@@ -1,53 +1,48 @@
+import React,{useEffect} from 'react'
 import { Form, Input, Button } from 'antd'
 import {connect} from 'react-redux'
+import Cookie from 'js-cookie'
 
 import './index.less'
 import {login} from '../../redux/action'
 
-const layout = {
-    labelCol: { span: 4 },
-    wrapperCol: { span: 20 },
-};
-const tailLayout = {
-    wrapperCol: { offset: 4, span: 20 },
-};
-
-const Login = ({user,login}) => {
+const Login = ({user,login,history}) => {
     const onFinish = values => {
         login(values)
     }
+
+    useEffect(() => {
+        const _id = Cookie.get('_id')
+        if(_id){
+            history.replace('/')
+        }
+    }, [user._id])
 
     return (
         <div className="login-page">
             <div className="form-wrapper">
                 <h1 className="title">后台管理</h1>
-                {
-                    console.log(user)
-                }
                 <Form
-                    {...layout}
                     name="basic"
                     initialValues={{ remember: true }}
                     onFinish={onFinish}
                 >
                     <Form.Item
-                        label="用户名"
                         name="username"
                         rules={[{ required: true, message: '用户名不能为空!' }]}
                     >
-                        <Input />
+                        <Input placeholder="用户名"/>
                     </Form.Item>
 
                     <Form.Item
-                        label="密码"
                         name="password"
                         rules={[{ required: true, message: '密码不能为空!' }]}
                     >
-                        <Input.Password />
+                        <Input.Password placeholder="密码"/>
                     </Form.Item>
 
-                    <Form.Item {...tailLayout}>
-                        <Button type="primary" htmlType="submit">
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit" block>
                             登录
                         </Button>
                     </Form.Item>
