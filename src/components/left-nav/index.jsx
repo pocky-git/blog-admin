@@ -10,9 +10,9 @@ class LeftNav extends Component {
     constructor() {
         super()
         this.state = {
-            defaultOpenKeys: []
+            openKeys: [],
         }
-        this.defaultOpenKeys = []
+        this.openKeys = []
     }
 
     initMenu = (menu) => {
@@ -39,18 +39,25 @@ class LeftNav extends Component {
         const { pathname } = this.props.location
         menu.forEach((item,index) => {
             if (item.children) {
-                this.defaultOpenKeys.push(item.path)
+                this.openKeys.push(item.path)
                 this.initMenuStatus(item.children)
             } else{
                 if(item.path===pathname){
+                    const {openKeys} = this.state
                     this.setState({
-                        defaultOpenKeys: this.defaultOpenKeys
+                        openKeys: Array.from(new Set([...openKeys,...this.openKeys]))
                     })
-                    this.defaultOpenKeys = []
+                    this.openKeys = []
                 }else if(index===menu.length-1){
-                    this.defaultOpenKeys = []
+                    this.openKeys = []
                 }
             }
+        })
+    }
+
+    openChange = openKeys => {
+        this.setState({
+            openKeys
         })
     }
     
@@ -59,14 +66,23 @@ class LeftNav extends Component {
         this.initMenuStatus(menu)
     }
 
+    componentDidUpdate(prevProps){
+        const oldPath = prevProps.location.pathname
+        const newPath = this.props.location.pathname
+        if(oldPath !== newPath){
+            this.initMenuStatus(menu)
+        }
+    }
+
     render() {
-        const { defaultOpenKeys } = this.state
+        const { openKeys } = this.state
 
         return (
             <Menu 
                 theme="dark" 
-                mode="inline" 
-                defaultOpenKeys={defaultOpenKeys} 
+                mode="inline"
+                openKeys={openKeys}
+                onOpenChange={this.openChange}
                 selectedKeys={[this.props.location.pathname]}
             >
                 {this.menu}

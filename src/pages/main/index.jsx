@@ -1,9 +1,5 @@
 import React, { Component } from 'react'
 import { Layout } from 'antd'
-import {
-    MenuUnfoldOutlined,
-    MenuFoldOutlined
-} from '@ant-design/icons'
 import { connect } from 'react-redux'
 import Cookie from 'js-cookie'
 import { Redirect, Switch, Route } from 'react-router-dom'
@@ -24,16 +20,6 @@ import Tabs from '../../components/tabs'
 const { Header, Sider, Content } = Layout
 
 class Main extends Component {
-    state = {
-        collapsed: false,
-    }
-
-    toggle = () => {
-        this.setState({
-            collapsed: !this.state.collapsed,
-        })
-    }
-
     componentDidMount() {
         const _id = Cookie.get('_id')
         if (_id && !this.props.user._id) {
@@ -50,16 +36,13 @@ class Main extends Component {
 
         return (
             <Layout className="main-page">
-                <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
+                <Sider>
                     <div className="logo">hello! {this.props.user.username}</div>
                     <LeftNav/>
                 </Sider>
                 <Layout className="site-layout">
                     <Header className="site-layout-background" style={{ padding: 0 }}>
-                        {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-                            className: 'trigger',
-                            onClick: this.toggle,
-                        })}
+
                     </Header>
                     <Tabs/>
                     <Content
