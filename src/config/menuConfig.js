@@ -30,16 +30,6 @@ export default [
         text: '标签',
         path: '/tags',
         icon: <TagsOutlined />,
-        children: [
-            {
-                text: '标签列表',
-                path: '/tags-list'
-            },
-            {
-                text: '编辑标签',
-                path: '/edit-tags'
-            },
-        ]
     },
     {
         text: '生活',

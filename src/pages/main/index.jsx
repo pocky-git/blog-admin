@@ -5,12 +5,12 @@ import Cookie from 'js-cookie'
 import { Redirect, Switch, Route } from 'react-router-dom'
 
 import './index.less'
+import menu from '../../config/menuConfig'
 import { getUser } from '../../redux/action'
 import Home from '../../pages/home'
 import Blog from '../../pages/blog'
 import EditBlog from '../../pages/edit-blog'
 import Tags from '../../pages/tags'
-import EditTags from '../../pages/edit-tags'
 import Life from '../../pages/life'
 import EditLife from '../../pages/edit-life'
 import About from '../../pages/about'
@@ -42,7 +42,6 @@ class Main extends Component {
                 </Sider>
                 <Layout className="site-layout">
                     <Header className="site-layout-background" style={{ padding: 0 }}>
-
                     </Header>
                     <Tabs/>
                     <Content
@@ -57,8 +56,7 @@ class Main extends Component {
                             <Route exact path='/' component={Home} />
                             <Route path='/blog-list' component={Blog} />
                             <Route path='/edit-blog' component={EditBlog} />
-                            <Route path='/tags-list' component={Tags} />
-                            <Route path='/edit-tags' component={EditTags} />
+                            <Route path='/tags' component={Tags} />
                             <Route path='/life-list' component={Life} />
                             <Route path='/edit-life' component={EditLife} />
                             <Route path='/about' component={About} />
