@@ -11,3 +11,9 @@ export const RESET_TAG_INPUTDATA = 'reset_tag_inputdata'
 export const SET_LOADING = 'set_loading'
 
 export const CHANGE_SEARCHTEXT = 'change_searchtext'
+
+export const CHANGE_BLOG_INPUTDATA = 'change_blog_inputdata'
+
+export const RESET_BLOG_INPUTDATA = 'reset_blog_inputdata'
+
+export const SAVE_BLOG = 'save_blog'

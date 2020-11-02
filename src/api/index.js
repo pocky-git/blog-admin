@@ -20,3 +20,12 @@ export const reqUpdateTag = (id,name) => axios.post('/updateTag',{id,name})
 
 // 搜索标签接口
 export const reqSearchTag = searchText => axios.get('/searchTag',{params:{searchText}})
+
+// 添加博客接口
+export const reqAddBlog = blog => axios.post('/addBlog',blog)
+
+// 获取博客接口
+export const reqGetBlog = () => axios.get('/getBlog')
+
+// 设置博客置顶
+export const reqSetBlogTop = data => axios.post('/setBlogTop',data)

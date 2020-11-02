@@ -8,7 +8,7 @@ import { changTagInputData, getTag, setVisible, addTag, deleteTag, updateTag, sa
 import getDate from '../../utils/getDate'
 
 const { confirm } = Modal
-const { Search } = Input;
+const { Search } = Input
 
 class Tags extends Component {
     columns = [

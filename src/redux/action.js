@@ -1,7 +1,28 @@
-import {reqLogin,reqUser,reqAddTag,reqGetTag,reqDeleteTag,reqUpdateTag,reqSearchTag} from '../api'
+import {
+    reqLogin,
+    reqUser,
+    reqAddTag,
+    reqGetTag,
+    reqDeleteTag,
+    reqUpdateTag,
+    reqSearchTag,
+    reqAddBlog,
+    reqGetBlog,
+    reqSetBlogTop
+} from '../api'
 import {message} from 'antd'
 
-import {SAVE_USER,CHANGE_TAG_INPUTDATA,SAVE_TAG,SET_VISIBLE,RESET_TAG_INPUTDATA,SET_LOADING,CHANGE_SEARCHTEXT} from './action-type'
+import {
+    SAVE_USER,
+    CHANGE_TAG_INPUTDATA,
+    SAVE_TAG,SET_VISIBLE,
+    RESET_TAG_INPUTDATA,
+    SET_LOADING,
+    CHANGE_SEARCHTEXT,
+    CHANGE_BLOG_INPUTDATA,
+    RESET_BLOG_INPUTDATA,
+    SAVE_BLOG
+} from './action-type'
 
 // 保存用户信息
 const saveUser = user => ({
@@ -37,13 +58,13 @@ export const getUser = () => {
 
 
 
-// 改变标签输入框的值
+// 改变标签输入框的值同步action
 export const changTagInputData = data => ({
     type: CHANGE_TAG_INPUTDATA,
     data
 })
 
-// 清空标签输入框的值
+// 清空标签输入框的值同步action
 export const resetTagInputData = () => ({
     type: RESET_TAG_INPUTDATA
 })
@@ -66,7 +87,7 @@ export const setLoading = isLoading => ({
     data: isLoading
 })
 
-// 设置搜索框的值
+// 设置搜索框的值同步action
 export const changeSearchText = val => ({
     type: CHANGE_SEARCHTEXT,
     data: val
@@ -97,9 +118,7 @@ export const getTag = () => {
         dispatch(setLoading(true))
         const result = await reqGetTag()
         dispatch(setLoading(false))
-        if(result.data.code === 1){
-            message.warn('请先登录!')
-        }else if(result.data.code === 500){
+        if(result.data.code === 500){
             message.warn('获取标签失败!')
         }else if(result.data.code === 0){
             const tags = result.data.data
@@ -150,9 +169,7 @@ export const updateTag = (id,name) => {
 export const searchTag = searchText => {
     return async dispatch => {
         const result = await reqSearchTag(searchText)
-        if(result.data.code === 1){
-            message.warn('请先登录!')
-        }else if(result.data.code === 500){
+        if(result.data.code === 500){
             message.warn('搜索失败!')
         }else if(result.data.code === 0){
             const tags = result.data.data
@@ -160,3 +177,71 @@ export const searchTag = searchText => {
         }
     }
 }
+
+
+
+
+// 改变博客输入框的值同步action
+export const changBlogInputData = data => ({
+    type: CHANGE_BLOG_INPUTDATA,
+    data
+})
+
+// 清空标签输入框的值同步action
+export const resetBlogInputData = () => ({
+    type: RESET_BLOG_INPUTDATA
+})
+
+// 保存博客列表同步action
+export const saveBlog = blogs => ({
+    type: SAVE_BLOG,
+    data: blogs
+})
+
+// 添加博客异步action
+export const addBlog = blog => {
+    return async dispatch => {
+        const result = await reqAddBlog(blog)
+        if(result.data.code === 1){
+            message.warn('请先登录!')
+        }else if(result.data.code === 500){
+            message.warn('添加失败!')
+        }else if(result.data.code === 0){
+            message.success('添加成功!')
+            dispatch(resetBlogInputData())
+        }
+    }
+}
+
+// 获取博客异步action
+export const getBlog = () => {
+    return async dispatch => {
+        dispatch(setLoading(true))
+        const result = await reqGetBlog()
+        dispatch(setLoading(false))
+        if(result.data.code === 500){
+            message.warn('获取失败!')
+        }else if(result.data.code === 0){
+            const blogs = result.data.data
+            dispatch(saveBlog(blogs))
+        }
+    }
+}
+
+// 设置博客置顶
+export const setBlogTop = data => {
+    return async dispatch => {
+        const result = await reqSetBlogTop(data)
+        if(result.data.code === 1){
+            message.warn('请先登录!')
+        }else if(result.data.code === 500){
+            message.warn('置顶失败!')
+        }else if(result.data.code === 2){
+            message.warn('博客不存在!')
+        }else if(result.data.code === 0){
+            dispatch(getBlog())
+        }
+    }
+}
+
+

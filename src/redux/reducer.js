@@ -1,6 +1,16 @@
 import {combineReducers} from 'redux'
 
-import {SAVE_USER,CHANGE_TAG_INPUTDATA,SAVE_TAG,SET_VISIBLE,RESET_TAG_INPUTDATA,SET_LOADING,CHANGE_SEARCHTEXT} from './action-type'
+import {
+    SAVE_USER,
+    CHANGE_TAG_INPUTDATA,
+    SAVE_TAG,SET_VISIBLE,
+    RESET_TAG_INPUTDATA,
+    SET_LOADING,
+    CHANGE_SEARCHTEXT,
+    CHANGE_BLOG_INPUTDATA,
+    RESET_BLOG_INPUTDATA,
+    SAVE_BLOG
+} from './action-type'
 
 // 用户reducer
 const initUser = {
@@ -45,6 +55,28 @@ function tag(state=initTag,action){
     }
 }
 
+// 博客reducer
+const initBlog = {
+    inputData: {},
+    blogList: [],
+    isLoading: false,
+}
+
+function blog(state=initBlog,action){
+    switch(action.type){
+        case CHANGE_BLOG_INPUTDATA:
+            return {...state,inputData:{...state.inputData,...action.data}}
+        case RESET_BLOG_INPUTDATA:
+            return {...state,inputData:{}}
+        case SAVE_BLOG:
+            return {...state,blogList:action.data}
+        case SET_LOADING:
+            return {...state,isLoading: action.data}
+        default:
+            return state
+    }
+}
+
 export default combineReducers({
-    user,tag
+    user,tag,blog
 })
