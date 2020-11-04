@@ -9,7 +9,9 @@ import {
     CHANGE_SEARCHTEXT,
     CHANGE_BLOG_INPUTDATA,
     RESET_BLOG_INPUTDATA,
-    SAVE_BLOG
+    SAVE_BLOG,
+    SAVE_UPDATE_BLOG,
+    RESET_UPDATE_BLOG
 } from './action-type'
 
 // 用户reducer
@@ -60,6 +62,8 @@ const initBlog = {
     inputData: {},
     blogList: [],
     isLoading: false,
+    searchText: '',
+    updateBlog: {}
 }
 
 function blog(state=initBlog,action){
@@ -72,6 +76,12 @@ function blog(state=initBlog,action){
             return {...state,blogList:action.data}
         case SET_LOADING:
             return {...state,isLoading: action.data}
+        case CHANGE_SEARCHTEXT:
+            return {...state,searchText: action.data}
+        case SAVE_UPDATE_BLOG:
+            return {...state,updateBlog:action.data}
+        case RESET_UPDATE_BLOG:
+            return {...state,updateBlog:{}}
         default:
             return state
     }

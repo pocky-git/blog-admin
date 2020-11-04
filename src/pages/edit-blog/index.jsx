@@ -1,39 +1,37 @@
 import React, { Component } from 'react'
 import { Card, Form, Input, Button, Select } from 'antd'
 import { connect } from 'react-redux'
+import ReactMarkDown from 'react-markdown'
+import gfm from 'remark-gfm'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
-import { changBlogInputData, getTag, addBlog } from '../../redux/action'
+import { changBlogInputData, getTag, addBlog, updateBlog, resetBlogInputData } from '../../redux/action'
 import './index.less'
 
 const { Option } = Select
 
-// import gfm from 'remark-gfm'
-// import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-// import { duotoneLight } from 'react-syntax-highlighter/dist/esm/styles/prism'
-// import ReactMarkDown from 'react-markdown'
-
-// const renderers = {
-//     code: ({ language, value }) => {
-//         return <SyntaxHighlighter style={duotoneLight} language={language} children={value} />
-//     }
-// }
+const renderers = {
+    code: ({ language, value }) => {
+        return <SyntaxHighlighter style={dark} language={language} children={value} />
+    }
+}
 
 const layout = {
     labelCol: { span: 1 },
     wrapperCol: { span: 23 },
 }
 
-const tailLayout = {
-    wrapperCol: { offset: 22, span: 2 },
-}
-
 class EditBlog extends Component {
     formRef = React.createRef()
 
     onFinish = () => {
-        const {inputData} = this.props.blog
-        this.props.addBlog(inputData)
-        this.props.history.replace('/blog-list')
+        const { updateBlog, inputData } = this.props.blog
+        if (updateBlog._id) {
+            this.props.updateBlog({ _id: updateBlog._id, ...inputData }, this)
+        } else {
+            this.props.addBlog(inputData, this)
+        }
     }
 
     handleChange = (name, value) => {
@@ -55,7 +53,6 @@ class EditBlog extends Component {
                     <Form
                         ref={this.formRef}
                         onFinish={this.onFinish}
-                        {...layout}
                     >
                         <Form.Item
                             name="tags"
@@ -83,20 +80,32 @@ class EditBlog extends Component {
                         >
                             <Input onChange={e => this.handleChange('title', e.target.value)} />
                         </Form.Item>
-                        <Form.Item
-                            name="content"
-                            rules={[{ required: true, message: '内容不能为空!' }]}
-                            label='内容'
-                            initialValue={inputData.content}
-                        >
-                            <Input.TextArea rows={20} onChange={e => this.handleChange('content', e.target.value)} />
+                        <Form.Item>
+                            <Form.Item
+                                label='内容'
+                                rules={[{ required: true, message: '内容不能为空!' }]}
+                                name="content"
+                                initialValue={inputData.content}
+                            >
+                                <Input.TextArea rows={20} onChange={e => this.handleChange('content', e.target.value)} />
+                            </Form.Item>
+                            <Card 
+                                title='预览'
+                                className="markdown-box"
+                            >
+                                <ReactMarkDown
+                                    renderers={renderers}
+                                    plugins={[gfm]}
+                                    escapeHtml={false}
+                                    children={inputData.content}
+                                ></ReactMarkDown>
+                            </Card>
                         </Form.Item>
-                        <Form.Item {...tailLayout}>
-                            <Button type="primary" htmlType="submit" block>
+                        <Form.Item style={{ textAlign: 'right' }}>
+                            <Button type="primary" htmlType="submit">
                                 提交
                             </Button>
                         </Form.Item>
-                        {/* <ReactMarkDown renderers={renderers} plugins={[gfm]} escapeHtml={false} children={this.state.content}></ReactMarkDown> */}
                     </Form>
                 </Card>
             </div>
@@ -109,5 +118,5 @@ export default connect(
         tag: state.tag,
         blog: state.blog
     }),
-    { changBlogInputData, getTag, addBlog }
+    { changBlogInputData, getTag, addBlog, updateBlog, resetBlogInputData }
 )(EditBlog)

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Card, Table, Space, Button, Modal, Input, message } from 'antd'
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { ExclamationCircleOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux'
 
 import './index.less'

@@ -29,3 +29,12 @@ export const reqGetBlog = () => axios.get('/getBlog')
 
 // 设置博客置顶
 export const reqSetBlogTop = data => axios.post('/setBlogTop',data)
+
+// 删除博客接口
+export const reqDeleteBlog = blogId => axios.post('/deleteBlog',{blogId})
+
+// 搜索博客接口
+export const reqSearchBlog = searchText => axios.get('/searchBlog',{params:{searchText}})
+
+// 更新博客接口
+export const reqUpdateBlog = blog => axios.post('/updateBlog',blog)
