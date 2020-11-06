@@ -5,8 +5,7 @@ import Cookie from 'js-cookie'
 import { Redirect, Switch, Route } from 'react-router-dom'
 
 import './index.less'
-import menu from '../../config/menuConfig'
-import { getUser } from '../../redux/action'
+import { getUser,resetUser } from '../../redux/action'
 import Home from '../../pages/home'
 import Blog from '../../pages/blog'
 import EditBlog from '../../pages/edit-blog'
@@ -31,6 +30,7 @@ class Main extends Component {
         // 如果没有_id 自动跳转到登陆界面
         const _id = Cookie.get('_id')
         if (!_id) {
+            this.props.resetUser()
             return <Redirect to='login' />
         }
 
@@ -72,6 +72,6 @@ export default connect(
     state => ({
         user: state.user
     }),
-    { getUser }
+    { getUser,resetUser }
 )(Main)
 

@@ -55,9 +55,9 @@ class Blog extends Component {
             render: blog => (
                 <Space size="middle">
                     <Button type="primary" onClick={()=>{
-                        const { title, tags, content } = blog
+                        const { title, tags, description, content } = blog
                         this.props.saveUpdateBlog(blog)
-                        this.props.changBlogInputData({ title, tags, content })
+                        this.props.changBlogInputData({ title, tags, description, content })
                         //this.formRef.current.setFieldsValue({ title, tags, content })
                         this.props.history.push('/edit-blog')
                     }}>编辑</Button>

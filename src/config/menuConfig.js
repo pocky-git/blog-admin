@@ -2,14 +2,14 @@ import {
     TagsOutlined,
     FormOutlined,
     UserOutlined,
-    SmileOutlined,
+    HomeOutlined,
 } from '@ant-design/icons'
 
 export default [
     {
         text: '首页',
         path: '/',
-        icon: <FormOutlined />,
+        icon: <HomeOutlined />,
     },
     {
         text: '博客',

@@ -80,6 +80,14 @@ class EditBlog extends Component {
                         >
                             <Input onChange={e => this.handleChange('title', e.target.value)} />
                         </Form.Item>
+                        <Form.Item
+                            name="description"
+                            rules={[{ required: true, message: '描述不能为空!' }]}
+                            label='描述'
+                            initialValue={inputData.description}
+                        >
+                            <Input onChange={e => this.handleChange('description', e.target.value)} />
+                        </Form.Item>
                         <Form.Item>
                             <Form.Item
                                 label='内容'

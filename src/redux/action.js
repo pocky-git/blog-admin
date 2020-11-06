@@ -17,6 +17,7 @@ import {message} from 'antd'
 
 import {
     SAVE_USER,
+    RESET_USER,
     CHANGE_TAG_INPUTDATA,
     SAVE_TAG,SET_VISIBLE,
     RESET_TAG_INPUTDATA,
@@ -33,6 +34,11 @@ import {
 const saveUser = user => ({
     type: SAVE_USER,
     data: user
+})
+
+//清空用户信息
+export const resetUser = () => ({
+    type: RESET_USER
 })
 
 // 登录
@@ -60,6 +66,7 @@ export const getUser = () => {
         }
     }
 }
+
 
 
 

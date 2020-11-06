@@ -4,6 +4,8 @@ export const CHANGE_TAG_INPUTDATA = 'change_tag_inputdata'
 
 export const SAVE_TAG = 'save_tag'
 
+export const RESET_USER = 'reset_user'
+
 export const SET_VISIBLE = 'set_visible'
 
 export const RESET_TAG_INPUTDATA = 'reset_tag_inputdata'

@@ -2,6 +2,7 @@ import {combineReducers} from 'redux'
 
 import {
     SAVE_USER,
+    RESET_USER,
     CHANGE_TAG_INPUTDATA,
     SAVE_TAG,SET_VISIBLE,
     RESET_TAG_INPUTDATA,
@@ -23,6 +24,8 @@ function user(state=initUser,action){
     switch(action.type){
         case SAVE_USER:
             return Object.assign({},initUser,action.data)
+        case RESET_USER:
+            return {username: ''}
         default:
             return state
     }
