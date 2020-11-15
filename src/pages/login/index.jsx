@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import Cookie from 'js-cookie'
 
 import './index.less'
-import {login} from '../../redux/action'
+import {login} from '../../redux/actions/userAction'
 
 const Login = ({user,login,history}) => {
     const onFinish = values => {

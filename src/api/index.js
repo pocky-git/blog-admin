@@ -7,7 +7,7 @@ export const reqLogin = ({username,password}) => axios.post('/login',{username,p
 export const reqUser = () => axios.get('/user')
 
 // 添加标签接口
-export const reqAddTag = ({name}) => axios.post('/addTag',{name})
+export const reqAddTag = name => axios.post('/addTag',{name})
 
 // 获取标签接口
 export const reqGetTag = () => axios.get('/getTag')
