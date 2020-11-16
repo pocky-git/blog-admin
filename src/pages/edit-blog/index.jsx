@@ -67,10 +67,6 @@ class EditBlog extends Component {
         }
     }
 
-    componentDidMount() {
-        this.props.getTag()
-    }
-
     componentWillUnmount(){
         window.removeEventListener('beforeunload', this.beforeunload)
         this.props.resetUpdateBlog()

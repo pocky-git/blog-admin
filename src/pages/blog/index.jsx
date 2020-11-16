@@ -99,11 +99,6 @@ class Blog extends Component {
         })
     }
 
-    componentDidMount() {
-        this.props.getTag()
-        this.props.getBlog()
-    }
-
     render() {
         const { searchText } = this.state
         const { blogList, isLoading } = this.props.blog

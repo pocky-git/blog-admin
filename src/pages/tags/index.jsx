@@ -108,10 +108,6 @@ class Tags extends Component {
         this.props.searchTag(searchText)
     }
 
-    componentDidMount() {
-        this.props.getTag()
-    }
-
     render() {
         const { searchText, visible, name } = this.state
         const { isLoading, tagsList } = this.props.tag

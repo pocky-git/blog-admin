@@ -6,6 +6,8 @@ import { Redirect, Switch, Route } from 'react-router-dom'
 
 import './index.less'
 import { getUser,resetUser } from '../../redux/actions/userAction'
+import { getTag } from '../../redux/actions/tagsAction'
+import { getBlog } from '../../redux/actions/blogAction'
 import Home from '../../pages/home'
 import Blog from '../../pages/blog'
 import EditBlog from '../../pages/edit-blog'
@@ -21,6 +23,12 @@ class Main extends Component {
         if (_id && !this.props.user._id) {
             this.props.getUser()
         }
+
+        // 获取标签
+        this.props.getTag()
+
+        // 获取博客
+        this.props.getBlog()
     }
 
     render() {
@@ -66,6 +74,6 @@ export default connect(
     state => ({
         user: state.user
     }),
-    { getUser,resetUser }
+    { getUser,resetUser,getTag,getBlog }
 )(Main)
 
