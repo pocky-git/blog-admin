@@ -144,10 +144,6 @@ class EditBlog extends Component {
                         </Form.Item>
                     </Form>
                 </Card>
-                <Prompt 
-                    when={true}
-                    message={location => '信息还没保存，确定离开吗？'}
-                />
             </div>
         )
     }

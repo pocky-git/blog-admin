@@ -38,3 +38,12 @@ export const reqSearchBlog = searchText => axios.get('/searchBlog',{params:{sear
 
 // 更新博客接口
 export const reqUpdateBlog = blog => axios.post('/updateBlog',blog)
+
+// 获取关于我们接口
+export const reqGetAbout = () => axios.get('/getAbout')
+
+// 添加关于我们接口
+export const reqAddAbout = about => axios.post('/addAbout',about)
+
+// 更新关于我们接口
+export const reqUpdateAbout = about => axios.post('/updateAbout',about)

@@ -7,7 +7,8 @@ import {
     SET_LOADING,
     SAVE_BLOG,
     SAVE_UPDATE_BLOG,
-    RESET_UPDATE_BLOG
+    RESET_UPDATE_BLOG,
+    SAVE_ABOUT
 } from './action-type'
 
 // 用户reducer
@@ -66,6 +67,23 @@ function blog(state=initBlog,action){
     }
 }
 
+// 关于我们reducer
+const initAbout = {
+    nickname: '',
+    tags: [],
+    description: '',
+    avantar: ''
+}
+
+function about(state=initAbout,action){
+    switch(action.type){
+        case SAVE_ABOUT:
+            return {...state,...action.data}
+        default:
+            return state
+    }
+}
+
 export default combineReducers({
-    user,tag,blog
+    user,tag,blog,about
 })

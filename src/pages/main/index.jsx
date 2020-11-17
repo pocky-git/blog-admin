@@ -8,6 +8,7 @@ import './index.less'
 import { getUser,resetUser } from '../../redux/actions/userAction'
 import { getTag } from '../../redux/actions/tagsAction'
 import { getBlog } from '../../redux/actions/blogAction'
+import { getAbout } from '../../redux/actions/aboutAction'
 import Home from '../../pages/home'
 import Blog from '../../pages/blog'
 import EditBlog from '../../pages/edit-blog'
@@ -74,6 +75,6 @@ export default connect(
     state => ({
         user: state.user
     }),
-    { getUser,resetUser,getTag,getBlog }
+    { getUser,resetUser,getTag,getBlog,getAbout }
 )(Main)
 

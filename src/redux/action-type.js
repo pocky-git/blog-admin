@@ -13,3 +13,5 @@ export const SAVE_BLOG = 'save_blog'
 export const SAVE_UPDATE_BLOG = 'save_update_blog'
 
 export const RESET_UPDATE_BLOG = 'reset_update_blog'
+
+export const SAVE_ABOUT = 'save_about'
