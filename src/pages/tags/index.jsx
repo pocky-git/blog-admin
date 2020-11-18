@@ -19,6 +19,9 @@ import {
     updateTag,
     searchTag 
 } from '../../redux/actions/tagsAction'
+import {
+    getBlog
+} from '../../redux/actions/blogAction'
 import getDate from '../../utils/getDate'
 
 const { confirm } = Modal
@@ -87,6 +90,7 @@ class Tags extends Component {
             onOk() {
                 const _id = tag._id
                 _this.props.deleteTag(_id)
+                _this.props.getBlog()
             }
         })
     }
@@ -134,6 +138,8 @@ class Tags extends Component {
                     }
                     }>添加</Button>}
                     style={{ width: '100%' }}
+                    headStyle={{padding: 0}}
+                    bodyStyle={{padding: 0}}
                 >
                     <Table
                         style={{ width: '100%' }}
@@ -169,6 +175,7 @@ export default connect(
         getTag, 
         deleteTag, 
         updateTag,
-        searchTag
+        searchTag,
+        getBlog
     }
 )(Tags)

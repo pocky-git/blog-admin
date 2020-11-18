@@ -125,6 +125,8 @@ class Blog extends Component {
                         this.props.history.push('/edit-blog')
                     }}>添加</Button>}
                     style={{ width: '100%' }}
+                    headStyle={{padding: 0}}
+                    bodyStyle={{padding: 0}}
                 >
                     <Table
                         style={{ width: '100%' }}

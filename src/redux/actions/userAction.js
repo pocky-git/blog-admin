@@ -3,6 +3,7 @@ import {
     reqUser,
 } from '../../api'
 import {message} from 'antd'
+import Cookie from 'js-cookie'
 
 import {
     SAVE_USER,
@@ -27,6 +28,7 @@ export const login = data => {
         if(result.data.code === 1){
             message.warn('用户名或密码错误!')
         }else if(result.data.code === 0){
+            message.success('登录成功!')
             const user = result.data.data
             dispatch(saveUser(user))
         }
@@ -39,6 +41,8 @@ export const getUser = () => {
         const result = await reqUser()
         if(result.data.code === 1){
             message.warn('请先登录!')
+            Cookie.remove('_id')
+            dispatch(resetUser())
         }else if(result.data.code === 0){
             const user = result.data.data
             dispatch(saveUser(user))

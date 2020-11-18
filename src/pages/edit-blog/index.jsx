@@ -1,150 +1,143 @@
 import React, { Component } from 'react'
-import { Prompt } from 'react-router-dom'
-import { Card, Form, Input, Button, Select } from 'antd'
+import { Form, Input, Button, Select } from 'antd'
 import { connect } from 'react-redux'
-import ReactMarkDown from 'react-markdown'
-import gfm from 'remark-gfm'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import BraftEditor from 'braft-editor'
+import CodeHighlighter from 'braft-extensions/dist/code-highlighter'
+import 'braft-editor/dist/index.css'
+import 'braft-extensions/dist/code-highlighter.css'
 
-import {  addBlog, updateBlog, resetUpdateBlog } from '../../redux/actions/blogAction'
+import { addBlog, updateBlog, resetUpdateBlog } from '../../redux/actions/blogAction'
 import { getTag } from '../../redux/actions/tagsAction'
 import './index.less'
 
 const { Option } = Select
 
-const renderers = {
-    code: ({ language, value }) => {
-        return <SyntaxHighlighter style={dark} language={language} children={value} />
-    }
+const options = {
+    syntaxs: [
+        {
+            name: 'JavaScript',
+            syntax: 'javascript'
+        },
+        {
+            name: 'HTML',
+            syntax: 'html'
+        },
+        {
+            name: 'CSS',
+            syntax: 'css'
+        }
+    ]
 }
+
+BraftEditor.use(CodeHighlighter(options))
 
 const layout = {
     labelCol: { span: 1 },
     wrapperCol: { span: 23 },
 }
 
-class EditBlog extends Component {
-    state = {
-        title: '', 
-        tags: [], 
-        description: '', 
-        content: ''
-    }
+const tailLayout = {
+    wrapperCol: { offset: 1, span: 23 },
+}
 
+class EditBlog extends Component {
     formRef = React.createRef()
 
-    onFinish = () => {
+    onFinish = values => {
         const { updateBlog } = this.props.blog
         if (updateBlog._id) {
-            this.props.updateBlog({ _id: updateBlog._id, ...this.state }, this)
+            this.props.updateBlog({ 
+                _id: updateBlog._id, 
+                ...values,
+                content: values.content.toHTML()
+            }, this)
         } else {
-            this.props.addBlog(this.state, this)
+            this.props.addBlog({
+                ...values,
+                content: values.content.toHTML()
+            }, this)
         }
-    }
-
-    handleChange = (name, value) => {
-        this.setState({
-            [name]: value
-        })
     }
 
     beforeunload = ev => {
-        console.log(ev)
         if (ev) {
-        　　ev.returnValue = ''
+            ev.returnValue = ''
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         window.addEventListener('beforeunload', this.beforeunload)
-        const {updateBlog} = this.props.blog
-        if(updateBlog._id){
-            const {title,tags,description,content} = updateBlog
-            this.setState({
-                title,tags,description,content
+        const { updateBlog } = this.props.blog
+        if (updateBlog._id) {
+            const { title, tags, description, content } = updateBlog
+            this.formRef.current.setFieldsValue({
+                title, 
+                tags, 
+                description,
+                content:BraftEditor.createEditorState(content)
             })
         }
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         window.removeEventListener('beforeunload', this.beforeunload)
         this.props.resetUpdateBlog()
     }
 
     render() {
-        const { title,tags,description,content } = this.state
         const { tagsList } = this.props.tag
+
         return (
-            <div className="edit-blog-page">
-                <Card title='编辑博客'>
-                    <Form
-                        ref={this.formRef}
-                        onFinish={this.onFinish}
+            <Form
+                ref={this.formRef}
+                onFinish={this.onFinish}
+                {...layout}
+            >
+                <Form.Item
+                    name="tags"
+                    label="标签"
+                    rules={[{ required: true, message: '请选择标签!' }]} 
+                >
+                    <Select
+                        mode="multiple"
+                        style={{ width: '100%' }}
                     >
-                        <Form.Item
-                            name="tags"
-                            label="标签"
-                            rules={[{ required: true, message: '请选择标签!' }]}
-                            initialValue={tags}
-                        >
-                            <Select
-                                mode="multiple"
-                                style={{ width: '100%' }}
-                                onChange={value => this.handleChange('tags', value)}
-                            >
-                                {
-                                    tagsList.map(tag => (
-                                        <Option key={tag._id}>{tag.name}</Option>
-                                    ))
-                                }
-                            </Select>
-                        </Form.Item>
-                        <Form.Item
-                            name="title"
-                            rules={[{ required: true, message: '标题不能为空!' }]}
-                            label='标题'
-                            initialValue={title}
-                        >
-                            <Input onChange={e => this.handleChange('title', e.target.value)} />
-                        </Form.Item>
-                        <Form.Item
-                            name="description"
-                            rules={[{ required: true, message: '描述不能为空!' }]}
-                            label='描述'
-                            initialValue={description}
-                        >
-                            <Input onChange={e => this.handleChange('description', e.target.value)} />
-                        </Form.Item>
-                        <Form.Item>
-                            <Form.Item
-                                label='内容'
-                                rules={[{ required: true, message: '内容不能为空!' }]}
-                                name="content"
-                                initialValue={content}
-                            >
-                                <Input.TextArea rows={20} onChange={e => this.handleChange('content', e.target.value)} />
-                            </Form.Item>
-                            <Card 
-                                title='预览'
-                                className="markdown-box"
-                            >
-                                <ReactMarkDown
-                                    renderers={renderers}
-                                    plugins={[gfm]}
-                                    escapeHtml={false}
-                                    children={content}
-                                ></ReactMarkDown>
-                            </Card>
-                        </Form.Item>
-                        <Form.Item style={{ textAlign: 'right' }}>
-                            <Button type="primary" htmlType="submit">
-                                提交
-                            </Button>
-                        </Form.Item>
-                    </Form>
-                </Card>
-            </div>
+                        {
+                            tagsList.map(tag => (
+                                <Option key={tag._id}>{tag.name}</Option>
+                            ))
+                        }
+                    </Select>
+                </Form.Item>
+                <Form.Item
+                    name="title"
+                    rules={[{ required: true, message: '标题不能为空!' }]}
+                    label='标题'
+                >
+                    <Input />
+                </Form.Item>
+                <Form.Item
+                    name="description"
+                    rules={[{ required: true, message: '描述不能为空!' }]}
+                    label='描述'
+                >
+                    <Input />
+                </Form.Item>
+                <Form.Item
+                    name="content"
+                    label='内容'
+                    rules={[{ required: true, message: '内容不能为空!' }]}
+                >
+                    <BraftEditor/>
+                </Form.Item>
+                <Form.Item 
+                    {...tailLayout}
+                >
+                    <Button type="primary" htmlType="submit">
+                        提交
+                    </Button>
+                </Form.Item>
+            </Form>
         )
     }
 }
@@ -154,5 +147,5 @@ export default connect(
         tag: state.tag,
         blog: state.blog
     }),
-    {  getTag, addBlog, updateBlog, resetUpdateBlog }
+    { getTag, addBlog, updateBlog, resetUpdateBlog }
 )(EditBlog)

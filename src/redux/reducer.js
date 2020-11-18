@@ -72,7 +72,8 @@ const initAbout = {
     nickname: '',
     tags: [],
     description: '',
-    avantar: ''
+    avantar: '',
+    content: ''
 }
 
 function about(state=initAbout,action){

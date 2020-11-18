@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { Layout } from 'antd'
+import { Layout, Button, Modal } from 'antd'
 import { connect } from 'react-redux'
 import Cookie from 'js-cookie'
 import { Redirect, Switch, Route } from 'react-router-dom'
+import { ExclamationCircleOutlined } from '@ant-design/icons'
 
 import './index.less'
 import { getUser,resetUser } from '../../redux/actions/userAction'
@@ -18,6 +19,8 @@ import LeftNav from '../../components/left-nav'
 
 const { Header, Sider, Content } = Layout
 
+const { confirm } = Modal
+
 class Main extends Component {
     componentDidMount() {
         const _id = Cookie.get('_id')
@@ -30,6 +33,20 @@ class Main extends Component {
 
         // 获取博客
         this.props.getBlog()
+    }
+
+    logout = () => {
+        const _this = this
+        confirm({
+            title: '确定退出吗?',
+            icon: <ExclamationCircleOutlined />,
+            okText: '确认',
+            cancelText: '取消',
+            onOk(){
+                Cookie.remove('_id')
+                _this.props.resetUser()
+            }
+        })
     }
 
     render() {
@@ -47,14 +64,18 @@ class Main extends Component {
                     <LeftNav/>
                 </Sider>
                 <Layout className="site-layout">
-                    <Header className="site-layout-background" style={{ padding: 0 }}>
+                    <Header className="site-layout-background site-header">
+                        <Button 
+                            className="logout" 
+                            type="danger"
+                            onClick={this.logout}
+                        >退出</Button>
                     </Header>
                     <Content
                         className="site-layout-background"
                         style={{
-                            margin: '24px 16px',
+                            margin: 24,
                             padding: 24,
-                            minHeight: 280,
                         }}
                     >
                         <Switch>
