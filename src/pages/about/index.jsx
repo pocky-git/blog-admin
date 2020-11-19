@@ -3,6 +3,7 @@ import { Form, Input, Button, Select, message } from 'antd'
 import { connect } from 'react-redux'
 import BraftEditor from 'braft-editor'
 import CodeHighlighter from 'braft-extensions/dist/code-highlighter'
+import Markdown from 'braft-extensions/dist/markdown'
 import 'braft-editor/dist/index.css'
 import 'braft-extensions/dist/code-highlighter.css'
 
@@ -36,6 +37,7 @@ const options = {
 }
 
 BraftEditor.use(CodeHighlighter(options))
+BraftEditor.use(Markdown())
 
 class About extends Component {
     formRef = React.createRef()
